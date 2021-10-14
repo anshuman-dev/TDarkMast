@@ -1,0 +1,84 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://sprites/Playermain.png" type="Texture" id=1]
+[ext_resource path="res://Player.gd" type="Script" id=2]
+[ext_resource path="res://sprites/move3update.png" type="Texture" id=3]
+[ext_resource path="res://sprites/jump.png" type="Texture" id=4]
+[ext_resource path="res://sprites/character.png" type="Texture" id=5]
+[ext_resource path="res://sprites/move2.png" type="Texture" id=6]
+[ext_resource path="res://sprites/move1.png" type="Texture" id=7]
+[ext_resource path="res://sprites/jumpdown.png" type="Texture" id=8]
+[ext_resource path="res://sprites/throwmid.png" type="Texture" id=9]
+[ext_resource path="res://sprites/throwstart.png" type="Texture" id=10]
+[ext_resource path="res://sprites/deadtrans2.png" type="Texture" id=11]
+[ext_resource path="res://sprites/deadtrans4.png" type="Texture" id=12]
+[ext_resource path="res://sprites/deadtrans1.png" type="Texture" id=13]
+[ext_resource path="res://sprites/deadtrans3.png" type="Texture" id=14]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "idle",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 14 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "dead",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "jump",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": false,
+"name": "fall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 9 ) ],
+"loop": false,
+"name": "attack",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 3 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 5.13619, 11 )
+
+[node name="Player" type="KinematicBody2D"]
+z_index = 1
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.15511, 0.0499879 )
+scale = Vector2( 0.324702, 0.347855 )
+frames = SubResource( 1 )
+animation = "dead"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.125, 0.375 )
+shape = SubResource( 2 )
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 11.9709, -1.83946 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 1456
+limit_bottom = 208
+smoothing_enabled = true
+editor_draw_limits = true
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

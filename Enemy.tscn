@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://sprites/enemynew2.png" type="Texture" id=1]
+[ext_resource path="res://sprites/enemy1.png" type="Texture" id=2]
+[ext_resource path="res://Enemy.gd" type="Script" id=3]
+[ext_resource path="res://sprites/dyingenemyone.png" type="Texture" id=4]
+[ext_resource path="res://sprites/dyingenemytwo.png" type="Texture" id=5]
+[ext_resource path="res://sprites/dyingenemythree.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": false,
+"name": "dead",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "walk",
+"speed": 12.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 7.81753, 12.2956 )
+
+[node name="Enemy" type="KinematicBody2D"]
+collision_layer = 16
+collision_mask = 9
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.05337, -0.0843768 )
+scale = Vector2( 0.397667, 0.391578 )
+frames = SubResource( 1 )
+animation = "dead"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1.03315, -0.285551 )
+shape = SubResource( 2 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( -7.90144, 0.630676 )
+enabled = true
+cast_to = Vector2( 0, 11.5 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.35
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
